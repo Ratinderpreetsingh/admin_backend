@@ -18,7 +18,7 @@
  */
 
 const express = require("express");
-const { cretarUser, getUserById, getAll_usersApi } = require("../Controllers/User");
+const { cretarUser, getUserById, getAll_usersApi, deleteUser } = require("../Controllers/User");
 const router = express.Router();
 
 /**
@@ -91,5 +91,30 @@ router.route("/get/:id").get(getUserById)
  *                 $ref: '#/components/schemas/User'
  */
 router.route("/getAll").get(getAll_usersApi)
+/**
+ * @swagger
+ * /api/user/delete/{id}:
+ *   delete:
+ *     summary: Delete User by ID
+ *     tags:
+ *       - User
+ *     description: Delete a User by its ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the User to be deleted
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response. Returns a User.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+router.route("/delete/:id").delete(deleteUser)
+// router.delete("/delete/:id",deleteUser)
 
 module.exports = router;

@@ -25,8 +25,12 @@ const getOrderById = async (req, res) => {
                     from: 'users',
                     localField: 'user',
                     foreignField: '_id',
-                    as: 'User'
+                    as: 'user'
                 }
+            },
+            {
+                $unwind: '$user'
+
             },
             {
                 $unwind: '$orderItems'
@@ -36,21 +40,31 @@ const getOrderById = async (req, res) => {
                     from: 'orderitems',
                     localField: 'orderItems',
                     foreignField: '_id',
-                    as: 'orderItems'
+                    as: 'orderItem'
                 }
             },
             {
-                $unwind: '$orderItems' // Unwind the nested orderItems array
+                $unwind: '$orderItem'
+            },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'orderItem.product',
+                    foreignField: '_id',
+                    as: 'orderItem.product'
+                }
+            },
+            {
+                $unwind: '$orderItem.product'
             },
             {
                 $group: {
-                    _id: '$_id', // Group by the order ID
-                    user: { $first: '$user' },
-                    orderItems: { $push: '$orderItems' },
+                    _id: '$_id',
                     orderDate: { $first: '$orderDate' },
                     totalAmount: { $first: '$totalAmount' },
-                    status: { $first: '$status' }
-                    // Add other fields you want to include in the group
+                    status: { $first: '$status' },
+                    user: { $push: '$user' },
+                    orderItems: { $push: '$orderItem' },
                 }
             }
         ]);
@@ -64,6 +78,7 @@ const getOrderById = async (req, res) => {
 
 
 
+
 const getAllorders = async(req,res)=>{
     try {
         const orders = await Order.find().populate('user')
@@ -73,4 +88,6 @@ const getAllorders = async(req,res)=>{
 
     }
 }
+
+
 module.exports = {createOrder,getOrderById,getAllorders}
