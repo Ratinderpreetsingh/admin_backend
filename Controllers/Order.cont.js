@@ -28,37 +28,39 @@ const getOrderById = async (req, res) => {
                     as: 'User'
                 }
             },
-           
+            {
+                $unwind: '$orderItems'
+            },
             {
                 $lookup: {
-                    from: 'products',
-                    localField: 'products.productId',
+                    from: 'orderitems',
+                    localField: 'orderItems',
                     foreignField: '_id',
-                    as: 'Products'
+                    as: 'orderItems'
                 }
             },
             {
-                $unwind: '$Products'
+                $unwind: '$orderItems' // Unwind the nested orderItems array
             },
             {
                 $group: {
-                    _id: '$_id',
-                    user: { $push: '$User' },
+                    _id: '$_id', // Group by the order ID
+                    user: { $first: '$user' },
+                    orderItems: { $push: '$orderItems' },
                     orderDate: { $first: '$orderDate' },
                     totalAmount: { $first: '$totalAmount' },
-                    status: { $first: '$status' },
-                    shippingAddress: { $first: '$shippingAddress' },
-                    products: { $push: '$Products' }
+                    status: { $first: '$status' }
+                    // Add other fields you want to include in the group
                 }
-            },
-            
+            }
         ]);
 
-        res.status(200).json({ message: "Order fetched successfully", order: getOrder });
+        res.status(200).json({ message: "Order fetched successfully", order: getOrder[0] });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
+
 
 
 

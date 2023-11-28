@@ -6,12 +6,15 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     description: {
-        type: String
+       
     },
     price:{
         type:Number
     },
     sizes: [String], 
+    q:{
+        type: String,
+    },
    
     images: [String], // Change 'image' to 'images'
     

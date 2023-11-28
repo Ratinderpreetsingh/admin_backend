@@ -11,17 +11,11 @@ const router = express.Router()
  *         user:
  *           type: string
  *           description: The user ID associated with the order.
- *         products:
- *          type: array
- *          items:
- *           type: object
- *           properties:
- *             productId:
- *               type: string
- *               description: The product ID associated with the order.
- *             quantity:
- *               type: number
- *               description: The quantity of the product.
+ *         orderItems:
+ *           type: array
+ *           items:
+ *             type: string
+ *             description: The ID of a product in the order.
  *         orderDate:
  *           type: string
  *           format: date
@@ -47,6 +41,7 @@ const router = express.Router()
  *             postalCode:
  *               type: string
  */
+
 
 /**
  * @swagger
