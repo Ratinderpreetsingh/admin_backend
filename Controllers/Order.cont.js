@@ -89,5 +89,13 @@ const getAllorders = async(req,res)=>{
     }
 }
 
+const delete_order= async(req,res)=>{
+    try {
+        const orders = await Order.findByIdAndDelete(req.params.id)
+        res.status(200).json(orders)
+    } catch (error) {
+        res.status(400).json({ error: error.message }); // Fixed the error handling here
 
-module.exports = {createOrder,getOrderById,getAllorders}
+    }
+}
+module.exports = {createOrder,getOrderById,getAllorders,delete_order}

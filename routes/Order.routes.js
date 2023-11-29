@@ -1,5 +1,5 @@
 const express = require("express")
-const {createOrder, getOrderById, getAllorders} = require("../Controllers/Order.cont")
+const {createOrder, getOrderById, getAllorders, delete_order} = require("../Controllers/Order.cont")
 const router = express.Router()
 /**
  * @swagger
@@ -111,4 +111,29 @@ router.get("/get/:id",getOrderById)
  */
 
 router.get('/getAll',getAllorders)
+
+/**
+ * @swagger
+ * /api/order/delete/{id}:
+ *   delete:
+ *     summary: Delete Order by ID
+ *     tags:
+ *       - Order
+ *     description: Delete a Order by its ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the Order to be deleted
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response. Returns a Order.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Order'
+ */
+router.delete('/delete/:id',delete_order)
 module.exports = router;
