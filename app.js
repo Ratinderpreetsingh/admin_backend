@@ -16,7 +16,7 @@ const order_routes = require("./routes/Order.routes.js")
 const review_routes = require("./routes/Review.routes.js")
 const UserAuth_routes = require("./routes/UserAuth.routes.js")
 const orderItems_routes = require("./routes/OrderItems.routes.js")
-
+const dashbaord_routes = require("./routes/Dashboard.js")
 app.use('/api/products',product_routes)
 app.use('/api/categories',category_routes)
 app.use("/api/user",user_routes)
@@ -24,6 +24,7 @@ app.use("/api/order",order_routes)
 app.use("/api/orderitems",orderItems_routes)
 app.use("/api/review",review_routes)
 app.use("/api/userAuth",UserAuth_routes)
+app.use("/api/dashbaord",dashbaord_routes)
 
 
 
